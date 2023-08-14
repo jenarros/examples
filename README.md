@@ -1,2 +1,5 @@
 # examples
-Solution examples for common problems
+
+| module                     | description         |
+ |----------------------------|---------------------|
+| [katas](./katas/README.md) | common coding katas |
