@@ -3,6 +3,7 @@ package jenm.examples.kafka.util
 import com.google.gson.Gson
 import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.admin.AdminClient
+import org.apache.kafka.clients.admin.CreateTopicsOptions
 import org.apache.kafka.clients.admin.NewTopic
 import org.apache.kafka.common.errors.TopicExistsException
 import org.testcontainers.containers.KafkaContainer
@@ -37,7 +38,8 @@ fun createTopic(
 
     try {
         with(AdminClient.create(cloudConfig)) {
-            createTopics(listOf(newTopic)).all().get()
+
+            createTopics(listOf(newTopic), CreateTopicsOptions()).all().get()
         }
     } catch (e: ExecutionException) {
         if (e.cause !is TopicExistsException) throw e

@@ -8,12 +8,12 @@ fun main() {
 
     when(app) {
         "producer" -> {
-            val topic = System.getProperty("topic", "unknown")
+            val topic = System.getProperty("topic") ?: throw RuntimeException("topic needs to be specified")
             producer(topic)
         }
         "consumer" -> {
-            val consumerGroup = System.getProperty("group", "unknown")
-            val topic = System.getProperty("topics", "unknown")
+            val consumerGroup = System.getProperty("group") ?: throw RuntimeException("group needs to be specified")
+            val topic = System.getProperty("topics") ?: throw RuntimeException("topic needs to be specified")
 
             logMessage("topics=$topic")
             logMessage("consumerGroup=$consumerGroup")

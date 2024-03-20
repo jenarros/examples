@@ -1,2 +1,4 @@
 #!/bin/bash
-../gradlew run -Dapp=producer -Dtopic="${1:-topic1}"
+TOPIC=topic1
+echo "topic=$TOPIC"
+../gradlew run -Dapp=producer -Dtopic="${1:-$TOPIC}"

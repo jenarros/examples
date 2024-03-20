@@ -19,7 +19,7 @@ fun consumer(topics: Set<String>, consumerGroup: String) {
         it[JSON_VALUE_TYPE] = DataRecord::class.java
         it[GROUP_ID_CONFIG] = consumerGroup
         it[AUTO_OFFSET_RESET_CONFIG] = "earliest"
-        it[RECONNECT_BACKOFF_MAX_MS_CONFIG] = 1000
+        it[RECONNECT_BACKOFF_MAX_MS_CONFIG] = 10000
         it[RECONNECT_BACKOFF_MS_CONFIG] = 100
     }
 
@@ -31,7 +31,10 @@ fun consumer(topics: Set<String>, consumerGroup: String) {
     val totalCount = AtomicLong(0)
 
     consumer.use {
-        logMessage("Started consumer for kafka instance at ${props["bootstrap.servers"]}")
+        logMessage(
+            "Started $consumerGroup for kafka instance at ${props["bootstrap.servers"]} and " +
+                    "subscribed to ${topics.joinToString()}"
+        )
         while (true) {
             consumer
                 .poll(ofMillis(100))
