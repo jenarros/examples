@@ -4,7 +4,7 @@ This application has 3 applications that need to be run independently: kafka, co
 ## Kafka
 This app will run a kafka instance until it is manually terminated.
 
-Run with: 
+Ensure you have Docker running and then run the kafka instance with: 
 ```./run-kafka```
 
 ## Consumer

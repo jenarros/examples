@@ -1,18 +1,16 @@
 package jenm.examples.kafka
 
 import io.confluent.kafka.serializers.KafkaJsonSerializer
-import jenm.examples.kafka.cloud.util.createTopic
+import jenm.examples.kafka.util.createTopic
 import jenm.examples.kafka.model.DataRecord
-import jenm.examples.kafka.cloud.util.loadKafkaConfig
-import org.apache.kafka.clients.admin.AdminClient
-import org.apache.kafka.clients.admin.NewTopic
+import jenm.examples.kafka.util.loadKafkaConfig
+import jenm.examples.kafka.util.logMessage
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig.*
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
-import org.apache.kafka.common.errors.TopicExistsException
 import org.apache.kafka.common.serialization.StringSerializer
-import java.util.concurrent.ExecutionException
+import java.time.LocalDateTime
 
 fun producer(topic: String) {
     val kafkaProps = loadKafkaConfig()
@@ -29,13 +27,13 @@ fun producer(topic: String) {
     val numMessages = 10
     KafkaProducer<String, DataRecord>(kafkaProps).use { producer ->
         repeat(numMessages) { i ->
-            val key = "message" // key is used by kafka to maintain order and it is optional
-            val record = DataRecord((i+1).toLong())
+            val key = "messageKey" // key is used by kafka to maintain order and it is optional
+            val record = DataRecord("Message ${(i + 1).toLong()}", LocalDateTime.now().toString())
 
             producer.send(ProducerRecord(topic, key, record)) { m: RecordMetadata, e: Exception? ->
                 when (e) {
                     // no exception, good to go!
-                    null -> println("Produced record $record to topic ${m.topic()} partition [${m.partition()}] @ offset ${m.offset()}")
+                    null -> logMessage("Produced record $record to topic ${m.topic()} partition [${m.partition()}] @ offset ${m.offset()}")
                     // print stacktrace in case of exception
                     else -> e.printStackTrace()
                 }
@@ -43,9 +41,8 @@ fun producer(topic: String) {
         }
 
         producer.flush()
-        println("$numMessages messages were produced to topic $topic")
+        logMessage("$numMessages messages were produced to topic $topic")
     }
-
 }
 
 

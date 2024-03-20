@@ -1,6 +1,7 @@
-package jenm.examples.kafka.cloud.util
+package jenm.examples.kafka.util
 
 import com.google.gson.Gson
+import org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG
 import org.apache.kafka.clients.admin.AdminClient
 import org.apache.kafka.clients.admin.NewTopic
 import org.apache.kafka.common.errors.TopicExistsException
@@ -13,7 +14,8 @@ import java.util.concurrent.ExecutionException
 val gson = Gson()
 
 fun loadKafkaConfig(): MutableMap<String, Any> =
-    mutableMapOf("bootstrap.servers" to readPortFromTempFile())
+    mutableMapOf(BOOTSTRAP_SERVERS_CONFIG to "localhost:9094")
+//    mutableMapOf(BOOTSTRAP_SERVERS_CONFIG to readPortFromTempFile())
 
 fun writePortToTempFile(kafka: KafkaContainer) {
     FileOutputStream("/tmp/example-kafka-port").use {
@@ -23,10 +25,7 @@ fun writePortToTempFile(kafka: KafkaContainer) {
     }
 }
 
-fun readPortFromTempFile(): String =
-    FileReader("/tmp/example-kafka-port")
-        .readLines().first()
-
+fun logMessage(message: String) = println(message)
 
 fun createTopic(
     topic: String,
