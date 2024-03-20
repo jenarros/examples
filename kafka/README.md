@@ -24,3 +24,9 @@ What would happen in each of the following scenarios?
 1. all running, then consumer goes down, producer produces messages, then consumer goes up
 2. all running, then producer goes down, then producer goes up
 3. all running, then kafka goes down, then the producer produces messages, then kafka goes up
+4. subcriber/consumer model
+   * run kafka
+   * run a consumer subscribed to a topic called myMessages
+   * run another consumer subscribed to a topic called otherMessages
+   * run the producer pointing it at the topic myMessages, you should see the messages in the 1st consumer
+   * run the producer pointing it at the topic otherMessages, you should see the messages in the 2nd consumer
