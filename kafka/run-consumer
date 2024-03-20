@@ -1,2 +1,2 @@
 #!/bin/bash
-../gradlew run -Dapp=consumer -Dtopic="${1:-test1}"
+../gradlew run -Dapp=consumer -Dtopics="${1:-topic1}" -Dgroup="${2:-consumer1}"

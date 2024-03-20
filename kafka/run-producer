@@ -1,2 +1,2 @@
 #!/bin/bash
-../gradlew run -Dapp=producer -Dtopic="${1:-test1}"
+../gradlew run -Dapp=producer -Dtopic="${1:-topic1}"

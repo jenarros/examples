@@ -12,12 +12,12 @@ The consumer is configured to consume the messages from the topic starting with 
 and wait for more messages until the app is terminated manually.
 
 Run with: 
-```./run-consumer```
+```./run-consumer [<topic> <consumerGroup>]```
 
 ## Producer
 The producer will produce 10 messages and then exit. 
 Run with: 
-```./run-producer```
+```./run-producer [<topic>]```
 
 ## Things to try
 What would happen in each of the following scenarios?
