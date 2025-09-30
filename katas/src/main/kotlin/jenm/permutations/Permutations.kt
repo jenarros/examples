@@ -1,36 +1,35 @@
 package jenm.permutations
 
+import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle
+
 class Permutations {
-    /*
-     * 1,2,3
-     * take 1 and calculate permutations of subset 2,3
-     * then add 1 to all possible positions of all subsets
-     * 2,3
-     * take 2 and calculate permutations of subset 3
-     * then add 1 to all possible positions of all subsets
-     * > 2,3 -> 2,3 + 3,2
-     * > 1,2,3 -> 1,2,3;2,1,3;2,3,1 + 1,3,2;3,1,2;3,2,1
-    */
+    /**
+     * nums does not contain duplicates
+     */
     fun permute(nums: IntArray): Set<List<Int>> {
-        if(nums.size == 0) return emptySet()
-        if(nums.size == 1) return setOf(listOf(nums[0]))
-
-        val subsetPermutations = permute(nums.sliceArray(1..nums.size-1))
-
-        return subsetPermutations.flatMap { subset ->
-            (0..subset.size).map {
-                val newList = subset.toMutableList()
-                newList.add(it, nums[0])
-                newList
-            }
+        if (nums.isEmpty()) return emptySet()
+        if (nums.size == 1) return setOf(listOf(nums[0]))
+        return nums.flatMap { num ->
+            permute(nums.filter { it != num }.toIntArray()).map { it + num }
         }.toSet()
     }
 
-    fun permute1(nums: IntArray): Set<List<Int>> {
-        if(nums.isEmpty()) return emptySet()
-        if(nums.size == 1) return setOf(listOf(nums[0]))
-        return nums.flatMap { num ->
-            permute1(nums.filter { it != num }.toIntArray()).map { it + num }
-        }.toSet()
+    /*
+     * nums may contain duplicates
+     */
+    fun permuteUnique(nums: IntArray): List<List<Int>> {
+        if (nums.size == 0) return emptyList()
+        if (nums.size == 1) return listOf(listOf(nums[0]))
+
+        // take each number x out of nums
+        // calculate permutations of the remaining array
+        // add x to each position of the returned arrays
+        return nums.indices.flatMap { i ->
+            val current = nums[i]
+            val perms = permuteUnique(nums.filterIndexed { index, e -> index != i }.toIntArray())
+            perms.flatMap {
+                listOf(it + current)
+            }
+        }
     }
 }
